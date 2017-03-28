@@ -1,0 +1,63 @@
+group 'app-engine'
+version '1.0-SNAPSHOT'
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.google.cloud.tools:appengine-gradle-plugin:1.1.1'
+    }
+}
+
+repositories {   // repositories for Jar's you access in your code
+    maven {
+        url 'https://maven-central.storage.googleapis.com'             // Google's mirror of Maven Central
+    }
+    jcenter()
+    mavenCentral()
+}
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'com.google.cloud.tools.appengine'
+sourceCompatibility = 1.7
+
+
+dependencies {
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    compile group: 'org.slf4j', name: 'slf4j-jdk14', version: '1.7.25'
+    compile group: 'org.slf4j', name: 'jcl-over-slf4j', version: '1.7.25'
+    compile group: 'org.slf4j', name: 'log4j-over-slf4j', version: '1.7.25'
+    compile group: 'com.google.guava', name: 'guava', version: '20.0'
+
+    compile group: 'com.google.appengine', name: 'appengine-api-1.0-sdk', version: '1.9.50'
+    compile group: 'com.google.appengine', name: 'appengine-api-labs', version: '1.9.50'
+
+    compile group: 'org.springframework', name: 'spring-webmvc', version: '4.3.7.RELEASE'
+    compile group: 'org.springframework', name: 'spring-aop', version: '4.3.7.RELEASE'
+    compile group: 'org.springframework.security', name: 'spring-security-core', version: '4.2.2.RELEASE'
+    compile group: 'org.springframework.security', name: 'spring-security-web', version: '4.2.2.RELEASE'
+    compile group: 'org.springframework.security', name: 'spring-security-config', version: '4.2.2.RELEASE'
+    compile group: 'org.springframework.security', name: 'spring-security-crypto', version: '4.2.2.RELEASE'
+
+    providedCompile group: 'javax.servlet', name: 'servlet-api', version: '2.5'
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+appengine {  // App Engine tasks configuration
+    run {      // local (dev_appserver) configuration (standard environments only)
+        port = 8081                 // default
+//        jvmFlags = ['-XX:MaxPermSize=256M', '-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=54361']
+    }
+
+    deploy {   // deploy configuration
+        project = 'elated-embassy-162812'
+        stopPreviousVersion = false  // default - stop the current version
+        promote = false              // default - & make this the current version
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.4.1'
+}
