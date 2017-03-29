@@ -1,3 +1,5 @@
+ext.springVersion = '4.3.7.RELEASE'
+
 ext.libraries['spring-webmvc'] = dependencies.create("org.springframework:spring-webmvc:${springVersion}")
 ext.libraries['spring-aop'] = dependencies.create("org.springframework:spring-aop:${springVersion}")
 
