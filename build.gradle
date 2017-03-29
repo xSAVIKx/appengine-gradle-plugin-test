@@ -1,44 +1,51 @@
-group 'app-engine'
-version = moduleVersion
-
-
 buildscript {
     repositories {
+        mavenLocal()
         jcenter()
         mavenCentral()
+        // Release repository
+        maven { url = spineRepository }
+        // Snapshots repository
+        maven { url = spineSnapshotsRepository }
+        maven { url "https://plugins.gradle.org/m2/" }
     }
 
     dependencies {
         classpath 'com.google.cloud.tools:appengine-gradle-plugin:1.1.1'
+        classpath group: 'com.google.protobuf', name: 'protobuf-gradle-plugin', version: "${protobufGradlePluginVersion}"
+        classpath group: 'org.spine3.tools', name: 'protobuf-plugin', version: "${spinePluginVersion}"
+        classpath "com.gradle:build-scan-plugin:1.6"
     }
+}
+apply plugin: "com.gradle.build-scan"
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'com.google.cloud.tools.appengine'
+apply plugin: 'com.google.protobuf'
+apply plugin: 'org.spine3.tools.protobuf-plugin'
+apply from: 'scripts/dependencies/dependencies.gradle'
+sourceCompatibility = JavaVersion.VERSION_1_7
+targetCompatibility = JavaVersion.VERSION_1_7
+
+buildScan {
+    licenseAgreementUrl = 'https://gradle.com/terms-of-service'
+    licenseAgree = 'yes'
 }
 
 repositories {   // repositories for Jar's you access in your code
     maven {
         url 'https://maven-central.storage.googleapis.com'             // Google's mirror of Maven Central
     }
+    maven { url = spineRepository }
+    maven { url = spineSnapshotsRepository }
     jcenter()
     mavenCentral()
 }
-apply plugin: 'java'
-apply plugin: 'war'
-apply plugin: 'com.google.cloud.tools.appengine'
-sourceCompatibility = JavaVersion.VERSION_1_7
-targetCompatibility = JavaVersion.VERSION_1_7
-
-
 dependencies {
-    compile group: 'org.slf4j', name: 'slf4j-api', version: "${slf4jVersion}"
-    compile group: 'org.slf4j', name: 'slf4j-jdk14', version: "${slf4jVersion}"
-    compile group: 'org.slf4j', name: 'jcl-over-slf4j', version: "${slf4jVersion}"
-    compile group: 'org.slf4j', name: 'log4j-over-slf4j', version: "${slf4jVersion}"
+    compile libraries.slf4j
+    compile libraries.spring
+    compile libraries.appengine
     compile group: 'com.google.guava', name: 'guava', version: '20.0'
-
-    compile group: 'com.google.appengine', name: 'appengine-api-1.0-sdk', version: "${appengineVersion}"
-    compile group: 'com.google.appengine', name: 'appengine-api-labs', version: "${appengineVersion}"
-
-    compile group: 'org.springframework', name: 'spring-webmvc', version: "${springVersion}"
-    compile group: 'org.springframework', name: 'spring-aop', version: "${springVersion}"
     providedCompile group: 'javax.servlet', name: 'servlet-api', version: '2.5'
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
@@ -60,3 +67,7 @@ appengine {  // App Engine tasks configuration
 task wrapper(type: Wrapper) {
     gradleVersion = '3.4.1'
 }
+
+group 'app-engine'
+version = moduleVersion
+

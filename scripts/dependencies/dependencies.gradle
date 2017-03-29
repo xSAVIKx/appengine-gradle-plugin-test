@@ -1,0 +1,4 @@
+ext.libraries = [:]
+apply from: 'scripts/dependencies/slf4j.gradle'
+apply from: 'scripts/dependencies/spring.gradle'
+apply from: 'scripts/dependencies/appengine.gradle'

@@ -1,0 +1,7 @@
+ext.libraries['appengine-api-1.0-sdk'] = dependencies.create("com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}")
+ext.libraries['appengine-api-labs'] = dependencies.create("com.google.appengine:appengine-api-labs:${appengineVersion}")
+
+ext.libraries['appengine'] = [
+        ext.libraries['appengine-api-1.0-sdk'],
+        ext.libraries['appengine-api-labs']
+]
