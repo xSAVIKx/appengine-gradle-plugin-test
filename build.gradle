@@ -32,6 +32,10 @@ allprojects {
 
 subprojects {
     ext.scriptsDir = "$rootProject.rootDir/scripts"
+    ext.sourceDir = "$projectDir/src"
+    ext.generatedSourceDir = "$projectDir/generated"
+    ext.generatedSourceDirMain = "$generatedSourceDir/main"
+    ext.generatedResourcesDir = "$generatedSourceDirMain/resources"
     apply plugin: 'java'
     apply plugin: 'reflections-plugin'
     apply from: "$scriptsDir/dependencies/dependencies.gradle"
@@ -44,6 +48,18 @@ subprojects {
         maven { url = spineSnapshotsRepository }
         jcenter()
         mavenCentral()
+    }
+    sourceSets {
+        main {
+            resources.srcDirs += files("$generatedResourcesDir")
+        }
+    }
+    reflectionsPlugin {
+        targetDir = "$generatedResourcesDir/META-INF/reflections"
+    }
+
+    clean.doLast {
+        file("$generatedSourceDir").deleteDir()
     }
 
     sourceCompatibility = JavaVersion.VERSION_1_7

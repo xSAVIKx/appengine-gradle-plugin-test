@@ -3,11 +3,9 @@ apply plugin: 'org.spine3.tools.protobuf-plugin'
 apply plugin: 'idea'
 apply plugin: 'java'
 
-ext.sourceDir = "$projectDir/src"
-ext.generatedSourceDir = "$sourceDir/generated"
-ext.generatedJavaDir = "$generatedSourceDir/java"
-ext.generatedSpineDir = "$generatedSourceDir/spine"
-ext.generatedResourcesDir = "$generatedSourceDir/resources"
+ext.generatedSourceDir = "$projectDir/generated"
+ext.generatedJavaDir = "$generatedSourceDirMain/java"
+ext.generatedSpineDir = "$generatedSourceDirMain/spine"
 
 dependencies {
     compile libraries.guava
@@ -18,6 +16,7 @@ dependencies {
 idea.module {
     generatedSourceDirs += file("$generatedJavaDir");
     generatedSourceDirs += file("$generatedSpineDir");
+
 }
 
 sourceSets {
@@ -38,6 +37,9 @@ sourceSets {
 
 protobuf {
     generatedFilesBaseDir = project.ext.generatedSourceDir
+    protoc {
+        artifact = "com.google.protobuf:protoc:$protobufVersion"
+    }
     generateProtoTasks {
         all().each { final task ->
             task.generateDescriptorSet = true

@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package com.test.application.domain.user;
+
+option (type_url_prefix) = "type.com.test.application.domain.user";
+option java_generate_equals_and_hash = true;
+option java_multiple_files = true;
+option java_package = "com.test.application.domain";
+option java_outer_classname = "UserProto";
+
+import "spine/annotations.proto";
+import "spine/validate.proto";
+import "spine/users/user_id.proto";
+import "spine/users/user_account.proto";
+import "spine/users/tenant.proto";
+
+message User {
+    spine.users.UserId user_id = 1 [(required) = true];
+    spine.users.UserAccount user_account = 2 [(required) = true];
+    spine.users.Tenant tenant = 3;
+}

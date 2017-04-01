@@ -1,6 +1,5 @@
 ext.protobufVersion = '3.2.0'
 ext.libraries['protobufJava'] = dependencies.create("com.google.protobuf:protobuf-java:$protobufVersion")
-ext.libraries['protoc'] = dependencies.create("com.google.protobuf:protoc:$protobufVersion")
 ext.libraries['protobufJavaUtil'] = dependencies.create("com.google.protobuf:protobuf-java-util:$protobufVersion")
 
 ext.libraries['protobuf']=[
