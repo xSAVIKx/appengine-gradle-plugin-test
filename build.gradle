@@ -20,10 +20,14 @@ buildscript {
     }
 }
 apply plugin: "com.gradle.build-scan"
+
 buildScan {
     licenseAgreementUrl = 'https://gradle.com/terms-of-service'
     licenseAgree = 'yes'
 }
+
+defaultTasks "clean", "build"
+
 allprojects {
     apply plugin: 'maven'
     group 'app-engine'
@@ -42,7 +46,8 @@ subprojects {
     repositories {   // repositories for Jar's you access in your code
         mavenLocal()
         maven {
-            url 'https://maven-central.storage.googleapis.com'             // Google's mirror of Maven Central
+            url 'https://maven-central.storage.googleapis.com'
+            // Google's mirror of Maven Central
         }
         maven { url = spineRepository }
         maven { url = spineSnapshotsRepository }

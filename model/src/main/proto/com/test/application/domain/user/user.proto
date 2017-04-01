@@ -5,7 +5,7 @@ package com.test.application.domain.user;
 option (type_url_prefix) = "type.com.test.application.domain.user";
 option java_generate_equals_and_hash = true;
 option java_multiple_files = true;
-option java_package = "com.test.application.domain";
+option java_package = "com.test.application.domain.user";
 option java_outer_classname = "UserProto";
 
 import "spine/annotations.proto";
