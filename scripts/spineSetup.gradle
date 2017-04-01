@@ -1,0 +1,48 @@
+apply plugin: 'com.google.protobuf'
+apply plugin: 'org.spine3.tools.protobuf-plugin'
+apply plugin: 'idea'
+apply plugin: 'java'
+
+ext.sourceDir = "$projectDir/src"
+ext.generatedSourceDir = "$sourceDir/generated"
+ext.generatedJavaDir = "$generatedSourceDir/java"
+ext.generatedSpineDir = "$generatedSourceDir/spine"
+ext.generatedResourcesDir = "$generatedSourceDir/resources"
+
+dependencies {
+    compile libraries.guava
+    compile libraries.spine3
+    compile libraries.protobuf
+}
+
+idea.module {
+    generatedSourceDirs += file("$generatedJavaDir");
+    generatedSourceDirs += file("$generatedSpineDir");
+}
+
+sourceSets {
+    main {
+        proto.srcDirs = ["$sourceDir/main/proto"]
+        java.srcDirs = ["$sourceDir/main/java",
+                        "$generatedJavaDir",
+                        "$generatedSpineDir"]
+        resources.srcDirs += files("$generatedResourcesDir")
+    }
+    test {
+        proto.srcDirs = ["$sourceDir/test/proto"]
+        java.srcDirs = ["$generatedSourceDir/test/java",
+                        "$sourceDir/test/java"]
+        resources.srcDirs = ["$generatedSourceDir/test/resources"]
+    }
+}
+
+protobuf {
+    generatedFilesBaseDir = project.ext.generatedSourceDir
+    generateProtoTasks {
+        all().each { final task ->
+            task.generateDescriptorSet = true
+            task.descriptorSetOptions.path = "${projectDir}/build/descriptors/${task.sourceSet.name}.desc"
+            task.descriptorSetOptions.includeImports = true
+        }
+    }
+}

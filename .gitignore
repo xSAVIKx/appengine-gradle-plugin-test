@@ -32,7 +32,8 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 .gradle
-/build/
+**build/
+**src/generated
 gradle-app.setting
 !gradle-wrapper.jar
 .gradletasknamecache

@@ -1,4 +1,8 @@
+ext.scriptsDir = "$rootProject.rootDir/scripts"
 ext.libraries = [:]
-apply from: 'scripts/dependencies/slf4j.gradle'
-apply from: 'scripts/dependencies/spring.gradle'
-apply from: 'scripts/dependencies/appengine.gradle'
+apply from: "$scriptsDir/dependencies/generalDependencies.gradle"
+apply from: "$scriptsDir/dependencies/slf4j.gradle"
+apply from: "$scriptsDir/dependencies/spring.gradle"
+apply from: "$scriptsDir/dependencies/appengine.gradle"
+apply from: "$scriptsDir/dependencies/spine3.gradle"
+apply from: "$scriptsDir/dependencies/protobuf.gradle"

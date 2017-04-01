@@ -1,0 +1,20 @@
+ext.spine3Version = '0.8.7-SNAPSHOT'
+ext.spineGaeVersion = '0.8.7.1-SNAPSHOT'
+
+ext.libraries['spine-server-core'] = dependencies.create("org.spine3:spine-server-core:$spine3Version") {
+    changing = true
+}
+ext.libraries['spine-client-core'] = dependencies.create("org.spine3:spine-client-core:$spine3Version") {
+    changing = true
+}
+ext.libraries['spine-values'] = dependencies.create("org.spine3:spine-values:$spine3Version") { changing = true }
+ext.libraries['spine-users'] = dependencies.create("org.spine3:spine-users:$spine3Version") { changing = true }
+ext.libraries['spine-gae-java'] = dependencies.create("org.spine3:gae-java:$spineGaeVersion") { changing = true }
+
+ext.libraries['spine3'] = [
+        ext.libraries['spine-server-core'],
+        ext.libraries['spine-client-core'],
+        ext.libraries['spine-values'],
+        ext.libraries['spine-users'],
+        ext.libraries['spine-gae-java']
+]
