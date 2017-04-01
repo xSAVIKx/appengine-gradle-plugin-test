@@ -1,0 +1,122 @@
+Index: src/main/resources/spring-security.cfg.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/resources/spring-security.cfg.xml	(revision )
++++ src/main/resources/spring-security.cfg.xml	(revision )
+@@ -0,0 +1,21 @@
++<beans xmlns="http://www.springframework.org/schema/beans"
++       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++       xmlns:security="http://www.springframework.org/schema/security"
++       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
++
++
++            http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd">
++    <!--<security:global-method-security pre-post-annotations="enabled"/>-->
++
++    <security:http auto-config='true'>
++        <security:intercept-url pattern="/**" access="hasRole('ROLE_USER')"/>
++    </security:http>
++    <security:authentication-manager>
++        <security:authentication-provider>
++            <security:user-service>
++                <security:user name="test" password="test" authorities="ROLE_USER"/>
++            </security:user-service>
++        </security:authentication-provider>
++    </security:authentication-manager>
++
++</beans>
+\ No newline at end of file
+Index: build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- build.gradle	(date 1490731547000)
++++ build.gradle	(revision )
+@@ -37,6 +37,11 @@
+ 
+     compile group: 'org.springframework', name: 'spring-webmvc', version: '4.3.7.RELEASE'
+     compile group: 'org.springframework', name: 'spring-aop', version: '4.3.7.RELEASE'
++    compile group: 'org.springframework.security', name: 'spring-security-core', version: '4.2.2.RELEASE'
++    compile group: 'org.springframework.security', name: 'spring-security-web', version: '4.2.2.RELEASE'
++    compile group: 'org.springframework.security', name: 'spring-security-config', version: '4.2.2.RELEASE'
++    compile group: 'org.springframework.security', name: 'spring-security-crypto', version: '4.2.2.RELEASE'
++
+     providedCompile group: 'javax.servlet', name: 'servlet-api', version: '2.5'
+ 
+     testCompile group: 'junit', name: 'junit', version: '4.12'
+Index: src/main/webapp/index.jsp
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/webapp/index.jsp	(date 1490731547000)
++++ src/main/webapp/index.jsp	(revision )
+@@ -7,10 +7,10 @@
+ --%>
+ <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+ <html>
+-  <head>
+-    <title>$Title$</title>
+-  </head>
+-  <body>
+-  $END$
+-  </body>
++<head>
++    <title>Title</title>
++</head>
++<body>
++Context
++</body>
+ </html>
+Index: src/main/webapp/WEB-INF/web.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/webapp/WEB-INF/web.xml	(date 1490731547000)
++++ src/main/webapp/WEB-INF/web.xml	(revision )
+@@ -10,9 +10,27 @@
+     <context-param>
+         <param-name>contextConfigLocation</param-name>
+         <param-value>
+-            classpath:application-context.cfg.xml
++            classpath:application-context.cfg.xml,
++            classpath:spring-security.cfg.xml
+         </param-value>
+     </context-param>
++    <security-constraint>
++        <web-resource-collection>
++            <web-resource-name>MySecureSite</web-resource-name>
++            <url-pattern>/*</url-pattern>
++        </web-resource-collection>
++        <user-data-constraint>
++            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
++        </user-data-constraint>
++    </security-constraint>
++    <filter>
++        <filter-name>springSecurityFilterChain</filter-name>
++        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
++    </filter>
++    <filter-mapping>
++        <filter-name>springSecurityFilterChain</filter-name>
++        <url-pattern>/*</url-pattern>
++    </filter-mapping>
+     <listener>
+         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+     </listener>
+@@ -26,10 +44,10 @@
+ 
+     <servlet-mapping>
+         <servlet-name>mvc-dispatcher</servlet-name>
+-        <url-pattern>/</url-pattern>
++        <url-pattern>/*</url-pattern>
+     </servlet-mapping>
+     <welcome-file-list>
+-        <welcome-file>index.html</welcome-file>
++        <welcome-file>index.jsp</welcome-file>
+     </welcome-file-list>
+ 
+ </web-app>

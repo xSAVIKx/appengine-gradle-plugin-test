@@ -6,7 +6,7 @@ import org.springframework.web.context.support.XmlWebApplicationContext;
 
 public class WebApplicationContext extends XmlWebApplicationContext {
     @Override
-    protected void initBeanDefinitionReader(XmlBeanDefinitionReader beanDefinitionReader) {
+    protected void initBeanDefinitionReader(final XmlBeanDefinitionReader beanDefinitionReader) {
         super.initBeanDefinitionReader(beanDefinitionReader);
         if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production) {
             beanDefinitionReader.setValidating(false);

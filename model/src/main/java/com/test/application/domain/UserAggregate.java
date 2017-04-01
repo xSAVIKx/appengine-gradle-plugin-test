@@ -25,9 +25,8 @@ public class UserAggregate extends Aggregate<UserId, User, User.Builder> {
      * @param id the ID for the new aggregate
      */
     @VisibleForTesting
-    protected UserAggregate(UserId id) {
+    protected UserAggregate(final UserId id) {
         super(id);
     }
-
 
 }
