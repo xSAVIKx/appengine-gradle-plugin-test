@@ -1,1 +1,7 @@
 apply from: "$scriptsDir/spineSetup.gradle"
+dependencies {
+    compile libraries.slf4j
+    compile libraries.guava
+    compile libraries.appengine
+    testCompile libraries.junit
+}

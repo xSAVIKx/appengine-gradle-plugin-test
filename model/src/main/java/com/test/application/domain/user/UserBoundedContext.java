@@ -1,5 +1,6 @@
 package com.test.application.domain.user;
 
+import com.google.appengine.api.utils.SystemProperty;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.common.base.Supplier;
@@ -16,6 +17,8 @@ import org.spine3.server.storage.datastore.DatastoreStorageFactory;
 import org.spine3.users.UserId;
 
 public class UserBoundedContext {
+    private static final String LOCAL_DATASTORE_HOST = "localhost:8081";
+    private static final String LOCAL_DATASTORE_PROJECT_ID = "appengine-test";
     private static final String BOUNDED_CONTEXT_NAME = "USER_BOUNDED_CONTEXT";
     private static final String DEFAULT_NAMESPACE = "TEST_APPLICATION";
     private final BoundedContext boundedContext;
@@ -74,11 +77,18 @@ public class UserBoundedContext {
     }
 
     private static DatastoreOptions datastoreOptions() {
-        final DatastoreOptions datastoreOptions = DatastoreOptions.getDefaultInstance()
-                                                                  .toBuilder()
-                                                                  .setNamespace(DEFAULT_NAMESPACE)
-                                                                  .build();
-        return datastoreOptions;
+        final DatastoreOptions.Builder datastoreOptions = DatastoreOptions.getDefaultInstance()
+                                                                          .toBuilder()
+                                                                          .setNamespace(DEFAULT_NAMESPACE);
+        if (isRunningLocally()) {
+            datastoreOptions.setHost(LOCAL_DATASTORE_HOST)
+                            .setProjectId(LOCAL_DATASTORE_PROJECT_ID);
+        }
+        return datastoreOptions.build();
+    }
+
+    private static boolean isRunningLocally() {
+        return SystemProperty.environment.value() != SystemProperty.Environment.Value.Production;
     }
 
     private static <ID extends GeneratedMessageV3> void registerRepository(final BoundedContext boundedContext,

@@ -23,4 +23,8 @@ appengine {  // App Engine tasks configuration
         promote = false              // default - & make this the current version
         version = moduleVersion
     }
+
+    tools{
+        cloudSdkHome = "$System.env.CLOUD_SDK_HOME"
+    }
 }
