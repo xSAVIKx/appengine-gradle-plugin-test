@@ -1,0 +1,8 @@
+ext.scriptsDir = "$rootProject.rootDir/scripts"
+ext.libraries = [:]
+
+final def dependenciesFolder = file("$scriptsDir/dependencies")
+final def dependenciesCollection = files(dependenciesFolder.listFiles())
+dependenciesCollection.each {
+    apply from: it
+}

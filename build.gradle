@@ -1,14 +1,7 @@
-buildscript {
+buildscript { final scriptHandler ->
+    apply from: "scripts/repositories.gradle", to: scriptHandler
     configurations.all {
         resolutionStrategy.cacheChangingModulesFor 0, "seconds"
-    }
-    repositories {
-        mavenLocal()
-        jcenter()
-        mavenCentral()
-        maven { url "https://plugins.gradle.org/m2/" }
-        maven { url = spineRepository }
-        maven { url = spineSnapshotsRepository }
     }
     dependencies {
         classpath "dom4j:dom4j:1.6.1"
@@ -17,6 +10,7 @@ buildscript {
         classpath "com.google.cloud.tools:appengine-gradle-plugin:1.1.1"
         classpath "com.google.protobuf:protobuf-gradle-plugin:0.8.1"
         classpath "org.spine3.tools:protobuf-plugin:0.8.7-SNAPSHOT"
+        classpath "net.ltgt.gradle:gradle-apt-plugin:0.10"
     }
 }
 apply plugin: "com.gradle.build-scan"
@@ -41,19 +35,10 @@ subprojects {
     ext.generatedSourceDirMain = "$generatedSourceDir/main"
     ext.generatedResourcesDir = "$generatedSourceDirMain/resources"
     apply plugin: 'java'
+    apply plugin: 'idea'
     apply plugin: 'reflections-plugin'
-    apply from: "$scriptsDir/dependencies/dependencies.gradle"
-    repositories {   // repositories for Jar's you access in your code
-        mavenLocal()
-        maven {
-            url 'https://maven-central.storage.googleapis.com'
-            // Google's mirror of Maven Central
-        }
-        maven { url = spineRepository }
-        maven { url = spineSnapshotsRepository }
-        jcenter()
-        mavenCentral()
-    }
+    apply from: "$scriptsDir/repositories.gradle"
+    apply from: "$scriptsDir/dependencies.gradle"
     sourceSets {
         main {
             resources.srcDirs += files("$generatedResourcesDir")

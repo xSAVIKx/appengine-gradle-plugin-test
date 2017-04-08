@@ -1,0 +1,13 @@
+repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+    maven { url 'http://maven.teamdev.com/repository/spine' }
+    maven { url 'http://maven.teamdev.com/repository/spine-snapshots' }
+    maven { url 'http://maven.teamdev.com/repository/public' }
+    maven { url 'http://repo.maven.apache.org/maven2' }
+    maven { url 'http://maven.objectify-appengine.googlecode.com/git/' }
+    maven { url 'http://repository.springsource.com/maven/bundles/external' }
+    maven { url 'http://gmultipart.googlecode.com/svn/repo/m2' }
+    maven { url "https://plugins.gradle.org/m2/" }
+}

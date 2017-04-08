@@ -1,0 +1,8 @@
+apply plugin: "net.ltgt.apt"
+
+dependencies {
+    compile libraries['dagger']
+    compile libraries['javax.inject']
+    apt libraries['dagger-compiler']
+    testCompile libraries['junit']
+}

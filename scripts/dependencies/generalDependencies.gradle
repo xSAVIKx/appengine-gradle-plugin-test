@@ -1,6 +1,9 @@
 ext.junitVersion = '4.12'
-ext.guavaVersion = '20.0'
-ext.servletApiVersion = '2.5'
 ext.libraries['junit'] = dependencies.create("junit:junit:$junitVersion")
+ext.guavaVersion = '20.0'
 ext.libraries['guava'] = dependencies.create("com.google.guava:guava:$guavaVersion")
+ext.servletApiVersion = '2.5'
 ext.libraries['servletApi'] = dependencies.create("javax.servlet:servlet-api:$servletApiVersion")
+
+ext.javaxInjectVersion = '1'
+ext.libraries['javax.inject'] = dependencies.create("javax.inject:javax.inject:$javaxInjectVersion")

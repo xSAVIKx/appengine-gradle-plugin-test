@@ -1,4 +1,5 @@
 rootProject.name = 'gradle-plugin-test'
 include 'app-engine'
 include 'model'
+include 'dagger'
 

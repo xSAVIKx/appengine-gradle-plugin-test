@@ -1,0 +1,3 @@
+ext.dagger2Version = '2.10'
+ext.libraries['dagger'] = dependencies.create("com.google.dagger:dagger:$dagger2Version")
+ext.libraries['dagger-compiler'] = dependencies.create("com.google.dagger:dagger-compiler:$dagger2Version")
