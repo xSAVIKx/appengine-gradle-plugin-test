@@ -5,7 +5,8 @@ package com.test.dagger;
  */
 public class Main {
     public static void main(String[] args) {
-        TestComponent testComponent = DaggerTestComponent.createInstance();
+//        TestComponent testComponent = DaggerTestComponent.createInstance();
+        TestComponent testComponent = null;
         ClassA classA = testComponent.classA();
         classA.print();
     }
